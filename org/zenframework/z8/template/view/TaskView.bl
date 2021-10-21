@@ -1,0 +1,11 @@
+import org.zenframework.z8.template.model.Task;
+
+[entry]
+[displayName "Задачи"]
+public class TaskView extends Task {
+
+    columns = { recordId, project.code, user.name, status.name, createdAt};
+    names = { recordId };
+    controls = { recordId, project.code, user.name, status.name, createdAt};
+
+}

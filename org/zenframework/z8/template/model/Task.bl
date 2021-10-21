@@ -1,0 +1,34 @@
+import org.zenframework.z8.base.table.Table;
+import org.zenframework.z8.base.table.value.Link;
+import org.zenframework.z8.base.table.system.Users;
+
+[generatable]
+[name "Task"]
+[displayName "Задача"]
+public class Task extends Table {
+
+    [displayName "ID"] recordId;
+    [displayName "Наименование задачи"] name;
+
+    public Project project;
+    [name "Project"] public Link projectId = project;
+
+    [displayName "Описание задачи"] description;
+
+
+
+    public Status status;
+    [name "Status"] public Link statusId = status;
+
+    public Users user;
+    [name "User"] public Link userId = user;
+
+    [displayName "Создан"] createdAt;
+
+    [name "EndAt"]
+    [displayName "Срок выполнения"]
+    public DatetimeField endAt;
+
+
+
+}

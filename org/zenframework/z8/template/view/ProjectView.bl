@@ -1,0 +1,12 @@
+import org.zenframework.z8.template.model.Project;
+
+[entry]
+[request true]
+[displayName "Проекты"]
+public class ProjectView extends Project {
+
+    columns = { code, name};
+    names = { code };
+    controls = { code, name };
+
+}

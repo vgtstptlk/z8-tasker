@@ -1,0 +1,12 @@
+/.externalToolBuilders/
+/.settings
+/.java
+/.idea
+/.gradle/
+/target/
+/.project
+/.classpath
+/gradle.properties
+*.cache
+*-sources.jar
+*-javadoc.jar
