@@ -9,12 +9,14 @@ import org.zenframework.z8.base.table.system.UserEntries;
 import org.zenframework.z8.base.table.system.UserRoles;
 import org.zenframework.z8.base.table.value.Field;
 import org.zenframework.z8.lang.Object;
-import org.zenframework.z8.template.model.Document;
 import org.zenframework.z8.template.model.History;
 import org.zenframework.z8.template.model.Status;
-import org.zenframework.z8.template.view.Documents;
-import org.zenframework.z8.template.view.MyDocuments;
 import org.zenframework.z8.template.view.ProjectView;
+import org.zenframework.z8.template.model.Task;
+import org.zenframework.z8.template.view.TaskView;
+import org.zenframework.z8.template.view.MyTaskView;
+
+
 
 
 /* Класс-помощник для настройки приложения */
@@ -39,7 +41,7 @@ public class Setup {
 	private Entries entries;
 
 	/* Таблица приложения для хранения документов */
-	private Document document;
+	private Task task;
 
 	/* Таблица приложения для хранения статусов документов */
 	private Status status;
@@ -48,19 +50,19 @@ public class Setup {
 	private History history;
 
 	/* Представление данных для просмотра и редактирования всех документов */
-	private Documents documents;
+	private TaskView taskView;
 
 	/* Представление данных для просмотра и редактирования документов */
-	private MyDocuments myDocuments;
+	private MyTaskView myTaskView;
 
-	private ProjectView projects;
+	private ProjectView projectView;
 
 	/* Массив приватных таблиц */
 	public final Table[] privateTables = {};
 
 	/* Массив публичных таблиц */
 	public final Table[] publicTables = {
-		document
+		task
 	};
 
 	/* Массив таблиц только для чтения */
@@ -75,23 +77,24 @@ public class Setup {
 
 	/* Массив приватных запросов, доступных только администратору */
 	public final Object[] privateRequests = {
-		documents,
-		projects
+		taskView,
+		projectView
 	};
 
 	/* Массив публичных запросов */
 	public final Object[] publicRequests = {
-		myDocuments
+		myTaskView
 	};
 
 	/* Массив приватных пунктов меню, доступных только администратору */
 	public final int[Object] privateEntries = {
-		(documents, 1),
+		(projectView, 1),
+		(taskView, 2)
 	};
 
 	/* Массив публичных пунктов меню */
 	public final int[Object] publicEntries = {
-		(myDocuments, 2)
+		(myTaskView, 3)
 	};
 
 	/*

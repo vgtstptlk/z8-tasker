@@ -1,6 +1,8 @@
 import org.zenframework.z8.base.table.Table;
 import org.zenframework.z8.base.table.value.Link;
-import org.zenframework.z8.base.table.system.Users;
+import org.zenframework.z8.base.table.value.DatetimeField;
+import org.zenframework.z8.base.table.value.IntField;
+import org.zenframework.z8.template.model.CustomUser;
 
 [generatable]
 [name "Task"]
@@ -8,27 +10,55 @@ import org.zenframework.z8.base.table.system.Users;
 public class Task extends Table {
 
     [displayName "ID"] recordId;
-    [displayName "Наименование задачи"] name;
+    [displayName "Наименование"] name;
 
     public Project project;
     [name "Project"] public Link projectId = project;
 
-    [displayName "Описание задачи"] description;
+    [displayName "Описание"] description;
 
+    [name "complexity"]
+    [displayName "Сложность задачи (в чел.ч)"]
+    public IntField complexity;
 
-
+    [displayName "Статус"]
     public Status status;
     [name "Status"] public Link statusId = status;
 
-    public Users user;
-    [name "User"] public Link userId = user;
+
+    public CustomUser userCreate;
+    [name "UserCreate"] public Link userIdCreate = userCreate;
+
+
+    public CustomUser userExec;
+    [name "UserExec"] public Link userIdExec = userExec;
 
     [displayName "Создан"] createdAt;
 
-    [name "EndAt"]
-    [displayName "Срок выполнения"]
-    public DatetimeField endAt;
+    [name "EndAtPlanned"]
+    [displayName "Срок исполнения"]
+    public DatetimeField endAtPlanned;
 
+    [name "EndDateReal"]
+    [displayName "Дата фактического выполнения"]
+    public DatetimeField endAtReal;
 
+    [displayName "Исполнитель"] userExec.name;
+    [displayName "Создатель"] userCreate.name;
 
+    virtual protected void afterUpdate(guid recordId) {
+		super.afterUpdate(recordId);
+
+		if (!statusId.isChanged() && !userIdExec.isChanged() && !projectId.isChanged() && !description.isChanged()
+		        && !name.isChanged() && !description.isChanged() && !complexity.isChanged() && !createdAt.isChanged()
+		        && !endAtPlanned.isChanged() && !endAtReal.isChanged())
+		    return;
+
+		History history;
+		history.taskId = recordId;
+		history.userIdAuthor = user().id;
+		history.statusId = statusId.get();
+		history.userIdExec = userIdExec.get();
+		history.create();
+	}
 }
