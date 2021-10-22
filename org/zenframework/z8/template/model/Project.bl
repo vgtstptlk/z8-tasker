@@ -1,5 +1,7 @@
 import org.zenframework.z8.base.table.Table;
 import org.zenframework.z8.base.table.value.StringField;
+import org.zenframework.z8.base.table.value.Join;
+import org.zenframework.z8.base.table.value.JoinType;
 
 
 [generatable]
@@ -13,5 +15,12 @@ public class Project extends Table {
 	public StringField code;
 	code.length = 5;
 
-
+    public Task task;
+    public Join taskJoin = class {
+        joinType = JoinType.Left;
+        virtual protected sql_bool expression(){
+            return container.recordId == (sql_guid) container.task.projectId;
+        }
+    };
+    taskJoin = task;
 }

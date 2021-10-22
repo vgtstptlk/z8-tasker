@@ -3,13 +3,19 @@ import org.zenframework.z8.base.table.value.Link;
 import org.zenframework.z8.base.table.value.DatetimeField;
 import org.zenframework.z8.base.table.value.IntField;
 import org.zenframework.z8.template.model.CustomUser;
+import org.zenframework.z8.template.utils.TaskIndexHelper;
+import org.zenframework.z8.base.table.value.CountExpression;
+
 
 [generatable]
 [name "Task"]
 [displayName "Задача"]
 public class Task extends Table {
+    private TaskIndexHelper taskIndexHelper;
 
-    [displayName "ID"] recordId;
+    [name "code"]
+    [displayName "ID"]
+    public IntField ID;
     [displayName "Наименование"] name;
 
     public Project project;
@@ -46,6 +52,8 @@ public class Task extends Table {
     [displayName "Исполнитель"] userExec.name;
     [displayName "Создатель"] userCreate.name;
 
+    public CountExpression count;
+
     virtual protected void afterUpdate(guid recordId) {
 		super.afterUpdate(recordId);
 
@@ -54,6 +62,7 @@ public class Task extends Table {
 		        && !endAtPlanned.isChanged() && !endAtReal.isChanged())
 		    return;
 
+
 		History history;
 		history.taskId = recordId;
 		history.userIdAuthor = user().id;
@@ -61,4 +70,13 @@ public class Task extends Table {
 		history.userIdExec = userIdExec.get();
 		history.create();
 	}
+
+	virtual protected void beforeUpdate(guid recordId) {
+    		super.afterUpdate(recordId);
+
+    		if (statusId.isChanged() && (statusId.get() == '3347743E-11C0-4079-8CDD-F632A82DE961')){
+                this.endAtReal = date.now();
+                update(recordId);
+            }
+    }
 }

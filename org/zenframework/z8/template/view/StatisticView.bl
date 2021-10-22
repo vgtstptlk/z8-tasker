@@ -1,0 +1,37 @@
+import org.zenframework.z8.template.model.CustomUser;
+import org.zenframework.z8.base.table.value.IntExpression;
+import org.zenframework.z8.base.table.value.Join;
+import org.zenframework.z8.base.table.value.JoinType;
+import org.zenframework.z8.base.table.value.Aggregation;
+import org.zenframework.z8.template.model.Task;
+
+
+[entry]
+[displayName "Статистика"]
+[presentation "table"]
+public class StatisticView extends CustomUser {
+
+    public Task taskCreate;
+    public Join taskCreateJoin = class {
+        joinType = JoinType.Left;
+        virtual protected sql_bool expression(){
+            return (container.recordId == (sql_guid) container.taskCreate.userIdCreate);
+        }
+    };
+    taskCreateJoin = taskCreate;
+
+    public Task taskExec;
+    public Join taskExecJoin = class {
+        joinType = JoinType.Left;
+        virtual protected sql_bool expression(){
+            return (container.recordId == (sql_guid) container.taskExec.userIdExec);
+        }
+    };
+    taskExecJoin = taskExec;
+
+    [displayName "Кол-во созданых задач"] public IntExpression countCreate = taskCreate.recordId.sqlIsNull().IIF(0, 1);
+    countCreate.aggregation = Aggregation.Sum;
+
+    columns = {name, countCreate};
+    groupBy = {name};
+}

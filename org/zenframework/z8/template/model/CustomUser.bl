@@ -3,6 +3,8 @@ import org.zenframework.z8.base.table.value.StringField;
 import org.zenframework.z8.base.table.value.IntExpression;
 import org.zenframework.z8.base.table.value.CountExpression;
 import org.zenframework.z8.base.table.system.Users;
+import org.zenframework.z8.base.table.value.Join;
+
 
 [generatable]
 [name "CustomUser"]
@@ -10,4 +12,16 @@ public class CustomUser extends Users {
     public IntExpression createCount ;
     public CountExpression doneCount;
     public IntExpression percent;
+
+
+    // ouch! Refactor
+    public Task task;
+    public Join taskJoin = class {
+        virtual protected sql_bool expression(){
+            return (container.recordId == (sql_guid) container.task.userIdCreate)
+            || (container.recordId == (sql_guid) container.task.userIdExec);
+        }
+    };
+    taskJoin = task;
+
 }

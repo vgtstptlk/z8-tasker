@@ -29,10 +29,10 @@ public class TaskView extends Task {
 	historyList.colSpan = 4;
 	historyList.flex = 1;
 
-    columns = { recordId, project.code, description,  name, complexity, status.name, userCreate.name, userExec.name,
+    columns = { ID, project.code, description,  name, complexity, status.name, userCreate.name, userExec.name,
         endAtPlanned, endAtReal };
 
-    names = { recordId };
-    controls = { recordId, project.code, name, complexity, status.name, userCreate.name, userExec.name,
+    names = { ID };
+    controls = { ID, project.code, name, complexity, status.name, userCreate.name, userExec.name,
                          endAtPlanned, endAtReal, description, historyList};
 }

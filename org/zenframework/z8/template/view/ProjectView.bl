@@ -1,12 +1,23 @@
 import org.zenframework.z8.template.model.Project;
+import org.zenframework.z8.base.form.Listbox;
+
 
 [entry]
 [request true]
 [displayName "Проекты"]
 public class ProjectView extends Project {
 
+    [displayName "Задачи"]
+    private Listbox taskList;
+    taskList.query = task;
+    taskList.link = task.projectId;
+    taskList.columns = { task.ID, task.name};
+    taskList.colSpan = 2;
+    taskList.flex = 1;
+
     columns = { code, name};
     names = { code };
-    controls = { code, name };
+    controls = { code, name, taskList};
+
 
 }
