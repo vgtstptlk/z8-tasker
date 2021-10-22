@@ -76,7 +76,7 @@ public class Task extends Table {
 
     		if (statusId.isChanged() && (statusId.get() == '3347743E-11C0-4079-8CDD-F632A82DE961')){
                 this.endAtReal = date.now();
-                update(recordId);
+
             }
     }
 }

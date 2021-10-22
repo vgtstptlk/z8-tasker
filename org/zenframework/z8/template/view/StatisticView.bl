@@ -4,6 +4,7 @@ import org.zenframework.z8.base.table.value.Join;
 import org.zenframework.z8.base.table.value.JoinType;
 import org.zenframework.z8.base.table.value.Aggregation;
 import org.zenframework.z8.template.model.Task;
+import org.zenframework.z8.template.model.Status;
 
 
 [entry]
@@ -21,16 +22,20 @@ public class StatisticView extends CustomUser {
     taskCreateJoin = taskCreate;
 
     public Task taskExec;
+    public Status status;
     public Join taskExecJoin = class {
         joinType = JoinType.Left;
         virtual protected sql_bool expression(){
-            return (container.recordId == (sql_guid) container.taskExec.userIdExec);
+            return (container.recordId == (sql_guid) container.taskExec.userIdExec)
+                    && (container.taskExec.statusId == (sql_guid) container.status.Done);
         }
     };
     taskExecJoin = taskExec;
 
     [displayName "Кол-во созданых задач"] public IntExpression countCreate = taskCreate.recordId.sqlIsNull().IIF(0, 1);
+    [displayName "Кол-во выполненных задач"] public IntExpression countExec = taskExec.recordId.sqlIsNull().IIF(0, 1);
     countCreate.aggregation = Aggregation.Sum;
+    countExec.aggregation = Aggregation.Count;
 
     columns = {name, countCreate};
     groupBy = {name};
