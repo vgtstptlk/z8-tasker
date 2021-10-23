@@ -23,4 +23,23 @@ public class Project extends Table {
         }
     };
     taskJoin = task;
+
+    public CustomUser user;
+    public Join userJoin = class {
+         joinType = JoinType.Left;
+         virtual protected sql_bool expression(){
+            return container.recordId == (sql_guid) container.user.projectId;
+         }
+    };
+    userJoin = user;
+
+    public ProjectUser projectUser;
+    public Join projectJoin = class {
+        joinType = JoinType.Left;
+        virtual protected sql_bool expression(){
+            return container.recordId == (sql_guid) container.projectUser.projectId;
+        }
+    };
+    projectJoin = projectUser;
+
 }

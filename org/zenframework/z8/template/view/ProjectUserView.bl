@@ -1,0 +1,10 @@
+import org.zenframework.z8.template.model.ProjectUser;
+
+[entry]
+[displayName "Права на проект"]
+public class ProjectUserView extends ProjectUser {
+    names = { projectFullName };
+    controls = {user.name, project.name};
+    columns = {user.name, projectFullName};
+
+}

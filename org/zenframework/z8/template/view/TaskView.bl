@@ -1,5 +1,6 @@
 import org.zenframework.z8.template.model.Task;
 import org.zenframework.z8.template.model.History;
+import org.zenframework.z8.template.model.ProjectUser;
 import org.zenframework.z8.base.form.Listbox;
 import org.zenframework.z8.base.query.Query;
 import org.zenframework.z8.template.model.CustomUser;
@@ -10,6 +11,7 @@ public class TaskView extends Task {
 
     description.colSpan = 4;
 	description.flex = 1;
+
 
     public History history;
     /* Свойство поля "editable" определяет возможность редактирования поля в таблицах и списках */
@@ -33,6 +35,12 @@ public class TaskView extends Task {
         endAtPlanned, endAtReal };
 
     names = { ID };
-    controls = { ID, project.code, name, complexity, status.name, userCreate.name, userExec.name,
+    controls = { ID, project.code, name, complexity, status.name, userCreate.name, userExec.name, createdAt,
                          endAtPlanned, endAtReal, description, historyList};
+
+
+    virtual protected void beforeRead() {
+        		super.beforeRead();
+        		addWhere((project.projectUser.userId == (sql_guid) user().id));
+    }
 }

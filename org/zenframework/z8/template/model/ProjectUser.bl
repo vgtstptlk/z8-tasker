@@ -1,0 +1,21 @@
+import org.zenframework.z8.base.table.Table;
+import org.zenframework.z8.template.model.CustomUser;
+import org.zenframework.z8.base.table.value.Link;
+import org.zenframework.z8.base.table.value.StringExpression;
+
+
+[generatable]
+[name "ProjectUser"]
+public class ProjectUser extends Table {
+
+    public CustomUser user;
+    [name "user"] public Link userId = user;
+
+
+    public Project project;
+    [name "project"] public Link projectId = project;
+
+    [displayName "Логин пользователя"] user.name;
+    [displayName "Наименование проекта"] StringExpression projectFullName = "[" + project.code + "] " + project.name
+        + " " + user.name;
+}

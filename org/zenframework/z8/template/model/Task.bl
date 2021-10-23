@@ -19,7 +19,9 @@ public class Task extends Table {
     [displayName "Наименование"] name;
 
     public Project project;
-    [name "Project"] public Link projectId = project;
+    [name "Project"]
+    public Link projectId = project;
+    [displayName "ID Проекта"] project.code;
 
     [displayName "Описание"] description;
 
@@ -72,11 +74,16 @@ public class Task extends Table {
 	}
 
 	virtual protected void beforeUpdate(guid recordId) {
-    		super.afterUpdate(recordId);
+    		super.beforeUpdate(recordId);
 
     		if (statusId.isChanged() && (statusId.get() == '3347743E-11C0-4079-8CDD-F632A82DE961')){
                 this.endAtReal = date.now();
 
             }
     }
+
+    virtual protected void beforeCreate(guid recordId) {
+        		super.beforeCreate(recordId);
+        		this.userIdCreate = user().id;
+        }
 }

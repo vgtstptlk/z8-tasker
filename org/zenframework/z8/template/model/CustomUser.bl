@@ -4,24 +4,16 @@ import org.zenframework.z8.base.table.value.IntExpression;
 import org.zenframework.z8.base.table.value.CountExpression;
 import org.zenframework.z8.base.table.system.Users;
 import org.zenframework.z8.base.table.value.Join;
+import org.zenframework.z8.base.table.value.Link;
+
 
 
 [generatable]
 [name "CustomUser"]
 public class CustomUser extends Users {
-    public IntExpression createCount ;
-    public CountExpression doneCount;
-    public IntExpression percent;
 
 
-    // ouch! Refactor
-    public Task task;
-    public Join taskJoin = class {
-        virtual protected sql_bool expression(){
-            return (container.recordId == (sql_guid) container.task.userIdCreate)
-            || (container.recordId == (sql_guid) container.task.userIdExec);
-        }
-    };
-    taskJoin = task;
+    public Project project;
+    [name "Project"] public Link projectId = project;
 
 }
