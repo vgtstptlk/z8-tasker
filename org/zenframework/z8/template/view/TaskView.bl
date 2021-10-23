@@ -4,8 +4,11 @@ import org.zenframework.z8.template.model.ProjectUser;
 import org.zenframework.z8.base.form.Listbox;
 import org.zenframework.z8.base.query.Query;
 import org.zenframework.z8.template.model.CustomUser;
+import org.zenframework.z8.base.table.value.StringExpression;
+
 
 [entry]
+[request true]
 [displayName "Задачи"]
 public class TaskView extends Task {
 
@@ -19,6 +22,8 @@ public class TaskView extends Task {
     history.userExec.name.editable = true;
     history.description.editable = true;
 
+    endAtReal.editable = true;
+
     status.name.dependencies = { historyList };
 	userExec.name.dependencies = { historyList };
 	project.code.dependencies = { historyList };
@@ -31,6 +36,7 @@ public class TaskView extends Task {
 	historyList.colSpan = 4;
 	historyList.flex = 1;
 
+
     columns = { ID, project.code, description,  name, complexity, status.name, userCreate.name, userExec.name,
         endAtPlanned, endAtReal };
 
@@ -41,6 +47,8 @@ public class TaskView extends Task {
 
     virtual protected void beforeRead() {
         		super.beforeRead();
-        		addWhere((project.projectUser.userId == (sql_guid) user().id));
+        		addWhere((project.projectUser.userId == (sql_guid) user().id)
+        		    || user().isAdministrator()
+        		    || user().isSystem());
     }
 }

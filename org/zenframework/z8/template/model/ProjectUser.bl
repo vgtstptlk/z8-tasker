@@ -16,6 +16,6 @@ public class ProjectUser extends Table {
     [name "project"] public Link projectId = project;
 
     [displayName "Логин пользователя"] user.name;
-    [displayName "Наименование проекта"] StringExpression projectFullName = "[" + project.code + "] " + project.name
+    [displayName "Наименование проекта"] StringExpression projectFullName = "[" + project.code.get().toString() + "] " + project.name
         + " " + user.name;
 }

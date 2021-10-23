@@ -1,6 +1,7 @@
 import org.zenframework.z8.base.form.Desktop;
 
 [entry]
+[request true]
 [displayName "Меню"]
 public class ProjectDesktop extends Desktop {
     public ProjectView projectView;

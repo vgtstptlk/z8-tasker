@@ -9,7 +9,6 @@ import org.zenframework.z8.base.table.value.Link;
 
 
 [generatable]
-[name "CustomUser"]
 public class CustomUser extends Users {
 
 

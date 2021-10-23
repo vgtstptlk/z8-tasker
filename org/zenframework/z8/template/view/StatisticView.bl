@@ -8,6 +8,7 @@ import org.zenframework.z8.template.model.Status;
 
 
 [entry]
+[request true]
 [displayName "Статистика"]
 [presentation "table"]
 public class StatisticView extends CustomUser {
@@ -27,16 +28,15 @@ public class StatisticView extends CustomUser {
         joinType = JoinType.Left;
         virtual protected sql_bool expression(){
             return (container.recordId == (sql_guid) container.taskExec.userIdExec)
-                    && (container.taskExec.statusId == (sql_guid) container.status.Done);
+                    && (container.taskExec.statusId == (sql_guid) Status.Done);
         }
     };
     taskExecJoin = taskExec;
 
-    [displayName "Кол-во созданых задач"] public IntExpression countCreate = taskCreate.recordId.sqlIsNull().IIF(0, 1);
-    [displayName "Кол-во выполненных задач"] public IntExpression countExec = taskExec.recordId.sqlIsNull().IIF(0, 1);
-    countCreate.aggregation = Aggregation.Sum;
-    countExec.aggregation = Aggregation.Count;
+    [displayName "Кол-во созданых задач"] public IntExpression countCreate = taskCreate.count();
+    [displayName "Кол-во выполненных задач"] public IntExpression countExec = taskExec.recordId.sqlIsNull().IIF(countExec.get(), countExec.get()+1);
 
-    columns = {name, countCreate};
-    groupBy = {name};
+
+    columns = {name, countCreate, countExec};
+    //groupBy = {name};
 }

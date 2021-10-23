@@ -1,7 +1,8 @@
 import org.zenframework.z8.base.table.Table;
-import org.zenframework.z8.base.table.value.StringField;
+import org.zenframework.z8.base.table.value.IntField;
 import org.zenframework.z8.base.table.value.Join;
 import org.zenframework.z8.base.table.value.JoinType;
+import org.zenframework.z8.base.table.value.StringExpression;
 
 
 [generatable]
@@ -12,8 +13,7 @@ public class Project extends Table {
 
 	[name "code"]
 	[displayName "Уникальное наименование"]
-	public StringField code;
-	code.length = 5;
+	public IntField code;
 
     public Task task;
     public Join taskJoin = class {
@@ -41,5 +41,10 @@ public class Project extends Table {
         }
     };
     projectJoin = projectUser;
+
+    virtual protected void beforeCreate(guid recordId) {
+        super.beforeCreate(recordId);
+        this.code = code.getSequencer().next();
+    }
 
 }

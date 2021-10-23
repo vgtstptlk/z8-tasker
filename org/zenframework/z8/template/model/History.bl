@@ -5,9 +5,7 @@ import org.zenframework.z8.template.model.CustomUser;
 
 
 [generatable]
-
 [name "Tmp History"]
-
 public class History extends Table {
 
 	public Task task;

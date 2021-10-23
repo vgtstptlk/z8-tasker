@@ -11,7 +11,7 @@ import org.zenframework.z8.base.table.value.CountExpression;
 [name "Task"]
 [displayName "Задача"]
 public class Task extends Table {
-    private TaskIndexHelper taskIndexHelper;
+
 
     [name "code"]
     [displayName "ID"]
@@ -62,7 +62,7 @@ public class Task extends Table {
 		if (!statusId.isChanged() && !userIdExec.isChanged() && !projectId.isChanged() && !description.isChanged()
 		        && !name.isChanged() && !description.isChanged() && !complexity.isChanged() && !createdAt.isChanged()
 		        && !endAtPlanned.isChanged() && !endAtReal.isChanged())
-		    return;
+		return;
 
 
 		History history;
@@ -74,16 +74,20 @@ public class Task extends Table {
 	}
 
 	virtual protected void beforeUpdate(guid recordId) {
-    		super.beforeUpdate(recordId);
+    	super.beforeUpdate(recordId);
 
-    		if (statusId.isChanged() && (statusId.get() == '3347743E-11C0-4079-8CDD-F632A82DE961')){
-                this.endAtReal = date.now();
-
+    	if (statusId.isChanged()){
+            if (statusId.get() == Status.Done) {
+               this.endAtReal = date.now();
+            } else {
+                this.endAtReal = null;
             }
+        }
     }
 
     virtual protected void beforeCreate(guid recordId) {
-        		super.beforeCreate(recordId);
-        		this.userIdCreate = user().id;
-        }
+        super.beforeCreate(recordId);
+        this.ID = ID.getSequencer().next();
+        this.userIdCreate = user().id;
+    }
 }
