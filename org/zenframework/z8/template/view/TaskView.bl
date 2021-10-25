@@ -1,10 +1,6 @@
 import org.zenframework.z8.template.model.Task;
 import org.zenframework.z8.template.model.History;
-import org.zenframework.z8.template.model.ProjectUser;
 import org.zenframework.z8.base.form.Listbox;
-import org.zenframework.z8.base.query.Query;
-import org.zenframework.z8.template.model.CustomUser;
-import org.zenframework.z8.base.table.value.StringExpression;
 
 
 [entry]
@@ -17,22 +13,24 @@ public class TaskView extends Task {
 
 
     public History history;
-    /* Свойство поля "editable" определяет возможность редактирования поля в таблицах и списках */
-    history.status.name.editable = true;
-    history.userExec.name.editable = true;
-    history.description.editable = true;
 
     endAtReal.editable = true;
 
     status.name.dependencies = { historyList };
 	userExec.name.dependencies = { historyList };
 	project.code.dependencies = { historyList };
+	description.dependencies = { historyList };
+    userCreate.name.dependencies = { historyList };
+    complexity.dependencies = { historyList };
+    endAtReal.dependencies = { historyList };
+    endAtPlanned.dependencies = { historyList };
 
 	[displayName "История"]
 	private Listbox historyList;
 	historyList.query = history;
 	historyList.link = history.taskId;
-	historyList.columns = { history.createdAt, history.author.name, history.status.name, history.userExec.name, history.description };
+	historyList.columns = { history.createdAt, history.author.name, history.nameTask, history.status.name, history.userExec.name,
+	    history.endAtReal, history.endAtPlanned, history.description };
 	historyList.colSpan = 4;
 	historyList.flex = 1;
 

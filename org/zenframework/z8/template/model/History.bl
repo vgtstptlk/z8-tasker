@@ -1,6 +1,9 @@
 import org.zenframework.z8.base.table.Table;
 import org.zenframework.z8.template.model.Task;
 import org.zenframework.z8.base.table.value.Link;
+import org.zenframework.z8.base.table.value.IntField;
+import org.zenframework.z8.base.table.value.DatetimeField;
+import org.zenframework.z8.base.table.value.StringField;
 import org.zenframework.z8.template.model.CustomUser;
 
 
@@ -19,6 +22,22 @@ public class History extends Table {
 
 	public CustomUser userExec;
 	[name "UserExec"] public Link userIdExec = userExec;
+
+	[name "EndAtReal"]
+    [displayName "Фактическое выполнение"]
+	public DatetimeField endAtReal;
+
+	[name "EndAtPlanned"]
+	[displayName "Планируемое выполнение"]
+	public DatetimeField endAtPlanned;
+
+
+    [displayName "Имя"]
+    public StringField nameTask;
+
+	[name "Complexity"]
+	[displayName "Чел-ч"]
+	public IntField complexity;
 
 	[displayName "Дата"] createdAt;
 	[displayName "Примечание"] description;

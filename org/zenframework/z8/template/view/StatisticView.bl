@@ -1,8 +1,6 @@
 import org.zenframework.z8.template.model.CustomUser;
 import org.zenframework.z8.base.table.value.IntExpression;
-import org.zenframework.z8.base.table.value.Join;
-import org.zenframework.z8.base.table.value.JoinType;
-import org.zenframework.z8.base.table.value.Aggregation;
+import org.zenframework.z8.base.table.value.DecimalExpression;
 import org.zenframework.z8.template.model.Task;
 import org.zenframework.z8.template.model.Status;
 
@@ -13,30 +11,46 @@ import org.zenframework.z8.template.model.Status;
 [presentation "table"]
 public class StatisticView extends CustomUser {
 
-    public Task taskCreate;
-    public Join taskCreateJoin = class {
-        joinType = JoinType.Left;
-        virtual protected sql_bool expression(){
-            return (container.recordId == (sql_guid) container.taskCreate.userIdCreate);
+    [displayName "Кол-во созданых задач"] public IntExpression taskCreateCount = class {
+        virtual public int get() {
+            Task task;
+            return task.count(container.recordId.get() == (sql_guid) task.userIdCreate);
         }
     };
-    taskCreateJoin = taskCreate;
 
-    public Task taskExec;
-    public Status status;
-    public Join taskExecJoin = class {
-        joinType = JoinType.Left;
-        virtual protected sql_bool expression(){
-            return (container.recordId == (sql_guid) container.taskExec.userIdExec)
-                    && (container.taskExec.statusId == (sql_guid) Status.Done);
+
+    [displayName "Кол-во выполненных задач"] public IntExpression taskExecCount = class {
+        virtual public int get() {
+            Task task;
+            return task.count(
+                    (task.statusId == (sql_guid) Status.Done)
+                    && (container.recordId.get() == (sql_guid) task.userIdExec)
+            );
         }
     };
-    taskExecJoin = taskExec;
-
-    [displayName "Кол-во созданых задач"] public IntExpression countCreate = taskCreate.count();
-    [displayName "Кол-во выполненных задач"] public IntExpression countExec = taskExec.recordId.sqlIsNull().IIF(countExec.get(), countExec.get()+1);
 
 
-    columns = {name, countCreate, countExec};
-    //groupBy = {name};
+    [displayName "Процент выполненных задач"] public DecimalExpression taskExecInTimePer = class {
+        virtual public decimal get() {
+            Task task;
+            decimal inTimeExecCount = task.count(
+                    (task.statusId == (sql_guid) Status.Done)
+                    && (container.recordId.get() == (sql_guid) task.userIdExec)
+                    && (task.endAtReal <= (sql_date) task.endAtPlanned)
+            ) * 1.0;
+
+            decimal execCount = task.count(
+                    (task.statusId == (sql_guid) Status.Done)
+                    && (container.recordId.get() == (sql_guid) task.userIdExec)
+            ) * 1.0;
+
+            if (execCount == 0.0) {
+                return execCount;
+            }
+
+            return inTimeExecCount / execCount * 100;
+        }
+    };
+
+    columns = {name, taskCreateCount, taskExecCount, taskExecInTimePer};
 }

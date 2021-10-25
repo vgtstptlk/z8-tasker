@@ -3,12 +3,12 @@ import org.zenframework.z8.base.table.value.Link;
 import org.zenframework.z8.base.table.value.DatetimeField;
 import org.zenframework.z8.base.table.value.IntField;
 import org.zenframework.z8.template.model.CustomUser;
-import org.zenframework.z8.template.utils.TaskIndexHelper;
 import org.zenframework.z8.base.table.value.CountExpression;
 
 
 [generatable]
 [name "Task"]
+[request true]
 [displayName "Задача"]
 public class Task extends Table {
 
@@ -70,6 +70,10 @@ public class Task extends Table {
 		history.userIdAuthor = user().id;
 		history.statusId = statusId.get();
 		history.userIdExec = userIdExec.get();
+		history.endAtReal = endAtReal.get();
+		history.endAtPlanned = endAtPlanned.get();
+		history.complexity = complexity.get();
+		history.nameTask = name.get();
 		history.create();
 	}
 
@@ -85,9 +89,20 @@ public class Task extends Table {
         }
     }
 
+    virtual protected void beforeDestroy(guid recordId) {
+        super.beforeDestroy(recordId);
+
+        if (!(this.userIdCreate.get() == user().id) && !user().isAdministrator() && !user().isSystem()){
+            throw "Задачу может удалить администратор";
+        }
+
+    }
+
     virtual protected void beforeCreate(guid recordId) {
-        super.beforeCreate(recordId);
-        this.ID = ID.getSequencer().next();
-        this.userIdCreate = user().id;
+        super.afterCreate(recordId);
+        ID = ID.getSequencer().next();
+        userIdCreate = user().id;
+        statusId = Status.New;
+
     }
 }

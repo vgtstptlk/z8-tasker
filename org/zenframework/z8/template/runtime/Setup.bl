@@ -15,7 +15,8 @@ import org.zenframework.z8.template.view.ProjectView;
 import org.zenframework.z8.template.model.Task;
 import org.zenframework.z8.template.view.TaskView;
 import org.zenframework.z8.template.view.MyTaskView;
-
+import org.zenframework.z8.template.view.StatisticView;
+import org.zenframework.z8.template.view.ProjectUserView;
 
 
 
@@ -40,22 +41,22 @@ public class Setup {
 	/* Системная таблица Z8, хранящая пункты меню приложения */
 	private Entries entries;
 
-	/* Таблица приложения для хранения документов */
 	private Task task;
 
-	/* Таблица приложения для хранения статусов документов */
 	private Status status;
 
 	/* Таблица приложения для хранения истории изменения документов */
 	private History history;
 
-	/* Представление данных для просмотра и редактирования всех документов */
 	private TaskView taskView;
 
-	/* Представление данных для просмотра и редактирования документов */
 	private MyTaskView myTaskView;
 
 	private ProjectView projectView;
+
+    private StatisticView statisticView;
+
+    private ProjectUserView projectUserView;
 
 	/* Массив приватных таблиц */
 	public final Table[] privateTables = {};
@@ -77,23 +78,25 @@ public class Setup {
 
 	/* Массив приватных запросов, доступных только администратору */
 	public final Object[] privateRequests = {
-		taskView,
-		projectView
+
 	};
 
 	/* Массив публичных запросов */
 	public final Object[] publicRequests = {
-		myTaskView
+
 	};
 
 	/* Массив приватных пунктов меню, доступных только администратору */
 	public final int[Object] privateEntries = {
 		(projectView, 1),
-		(taskView, 2)
+        (statisticView, 4),
+        (projectUserView, 5)
+
 	};
 
 	/* Массив публичных пунктов меню */
 	public final int[Object] publicEntries = {
+	    (taskView, 2),
 		(myTaskView, 3)
 	};
 

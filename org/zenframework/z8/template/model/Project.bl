@@ -2,7 +2,6 @@ import org.zenframework.z8.base.table.Table;
 import org.zenframework.z8.base.table.value.IntField;
 import org.zenframework.z8.base.table.value.Join;
 import org.zenframework.z8.base.table.value.JoinType;
-import org.zenframework.z8.base.table.value.StringExpression;
 
 
 [generatable]

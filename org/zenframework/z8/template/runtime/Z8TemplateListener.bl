@@ -1,6 +1,6 @@
 import org.zenframework.z8.base.table.system.Roles;
 import org.zenframework.z8.base.table.system.Users;
-import org.zenframework.z8.template.model.CustomUser;
+
 
 
 /*
@@ -26,8 +26,8 @@ public class Z8TemplateListener extends RuntimeListener {
 		setup.setRequestAccess(setup.publicRequests, guid[] { Roles.User }, true);
 
 		// Добаить пользователю Administrator все пункты меню
-		setup.addEntries(setup.privateEntries, CustomUser.Administrator);
-		setup.addEntries(setup.publicEntries, CustomUser.Administrator);
+		setup.addEntries(setup.privateEntries, Users.Administrator);
+		setup.addEntries(setup.publicEntries, Users.Administrator);
 	}
 
 }

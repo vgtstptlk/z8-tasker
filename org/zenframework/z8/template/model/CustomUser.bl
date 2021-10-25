@@ -1,13 +1,8 @@
-import org.zenframework.z8.base.table.Table;
-import org.zenframework.z8.base.table.value.StringField;
-import org.zenframework.z8.base.table.value.IntExpression;
-import org.zenframework.z8.base.table.value.CountExpression;
 import org.zenframework.z8.base.table.system.Users;
-import org.zenframework.z8.base.table.value.Join;
 import org.zenframework.z8.base.table.value.Link;
 
 
-
+[request true]
 [generatable]
 public class CustomUser extends Users {
 

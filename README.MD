@@ -14,3 +14,4 @@ Eclipse workspace configuration:
 1. If you use Z8 Project sources, Z8 Project must be in the same workspace.
 1. If you use Z8 Project binaries, subproject _org.zenframework.z8.lang_ must be in the same workspace. Other Z8 dependencies are resolved with Gradle Maven plugin.
 # z8-tasker
+Проект разрабатывался под ветку  z-1.3.0-stable 

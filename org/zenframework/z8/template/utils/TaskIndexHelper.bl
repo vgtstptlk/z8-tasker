@@ -1,8 +1,0 @@
-import org.zenframework.z8.base.table.value.IntField;
-//not synchronized !!!
-public class TaskIndexHelper {
-    public  IntField index;
-    public int getIndex() {
-        return index.getSequencer().next();
-    }
-}
